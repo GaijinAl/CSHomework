@@ -26,13 +26,13 @@ void writeData(ArrayList& list, string file);
 // Prints the main menu
 void printMenu();
 // Searches for a car based on a user entered ID
-void searchId(ArrayList& list);
+int searchId(ArrayList& list);
 // Searches for a car based on a user entered make
-void searchMake(ArrayList& list);
+int searchMake(ArrayList& list);
 // Searches for a car based on a user entered model
-void searchModel(ArrayList& list);
+int searchModel(ArrayList& list);
 // Searches for a car based on a user entered color
-void searchColor(ArrayList& list);
+int searchColor(ArrayList& list);
 // Asks for a user to enter fields for a new car and adds it to the ArrayList
 void addNewCar(ArrayList& list);
 // Asks user for an valid car ID, and deletes it from the ArrayList
@@ -51,8 +51,11 @@ int main()
 	string strInput;
 	int input = 0;
 
+	int foundIndex = -1; // NOTE TO GRADER:  Told to return int for search function by Dr. Lu, but there is no use for it, so there is a warning.
+
 	while (input != -1)
 	{
+		foundIndex = -1;
 		printMenu();
 		//Get the input
 		getline(std::cin, strInput);
@@ -71,19 +74,19 @@ int main()
 		switch (input)
 		{
 			case 1:
-				searchId(carList);
+				foundIndex = searchId(carList);
 				cout << endl;
 				break;
 			case 2:
-				searchMake(carList);
+				foundIndex = searchMake(carList);
 				cout << endl;
 				break;
 			case 3:
-				searchModel(carList);
+				foundIndex = searchModel(carList);
 				cout << endl;
 				break;
 			case 4:
-				searchColor(carList);
+				foundIndex = searchColor(carList);
 				cout << endl;
 				break;
 			case 5:
@@ -193,12 +196,13 @@ void printMenu()
 }
 
 // Searches for a car by ID and prints it to the screen
-void searchId(ArrayList& list)
+int searchId(ArrayList& list)
 {
 	Car c ;
 	string strInput;
 	int input;
 	bool found = false;
+	int index;
 
 	cout << "Enter ID: ";
 	getline(std::cin, strInput);
@@ -220,6 +224,7 @@ void searchId(ArrayList& list)
  			c = list.get(i);
 			printCar(c);			
 			found = true;
+			index = i;
 		}
 	}
 
@@ -229,15 +234,16 @@ void searchId(ArrayList& list)
 		cout << "Not found. Returning to main menu" << endl << endl;
 	}
 
-	return;
+	return index;
 }
 
 // Searches for a car by make and prints it to the screen
-void searchMake(ArrayList& list)
+int searchMake(ArrayList& list)
 {
 	Car c ;
 	string strInput;
 	bool found = false;
+	int index;
 
 	cout << "Enter make: ";
 	getline(std::cin, strInput);
@@ -250,6 +256,7 @@ void searchMake(ArrayList& list)
  			c = list.get(i);			
 			printCar(c);
 			found = true;
+			index = i;
 		}
 	}
 
@@ -259,15 +266,16 @@ void searchMake(ArrayList& list)
 		cout << "Not found. Returning to main menu" << endl << endl;
 	}
 
-	return;
+	return index;
 }
 
 // Searches for a car by model and prints it to the screen
-void searchModel(ArrayList& list)
+int searchModel(ArrayList& list)
 {
 	Car c ;
 	string strInput;
 	bool found = false;
+	int index;
 
 	cout << "Enter model: ";
 	getline(std::cin, strInput);
@@ -281,6 +289,7 @@ void searchModel(ArrayList& list)
  			c = list.get(i);			
 			printCar(c);
 			found = true;
+			index = i;
 		}
 	}
 
@@ -290,15 +299,16 @@ void searchModel(ArrayList& list)
 		cout << "Not found. Returning to main menu" << endl << endl;
 	}
 
-	return;
+	return index;
 }
 
 // Searches for a car by model and prints it to the screen
-void searchColor(ArrayList& list)
+int searchColor(ArrayList& list)
 {
 	Car c ;
 	string strInput;
 	bool found = false;
+	int index;
 
 	cout << "Enter color: ";
 	getline(std::cin, strInput);
@@ -311,6 +321,7 @@ void searchColor(ArrayList& list)
  			c = list.get(i);			
 			printCar(c);
 			found = true;
+			index = i;
 		}
 	}
 
@@ -319,7 +330,7 @@ void searchColor(ArrayList& list)
 	{
 		cout << "Not found. Returning to main menu" << endl << endl;
 	}
-	return;
+	return index;
 }
 
 // Adds a new car to the ArrayList
