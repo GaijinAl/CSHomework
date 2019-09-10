@@ -1,0 +1,7 @@
+PROGRAM
+	a: REAL;
+BEGIN
+	IF a < 50 THEN
+		a := 99.2;
+	END IF;
+END PROGRAM; &=*
