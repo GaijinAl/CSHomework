@@ -1,0 +1,14 @@
+22,Honda,CRV,grey
+33,Toyota,Yaris,best color
+44,Ford,Durrge,man's color
+55,Dodge,Rust Bucket,rust
+66,Ferrari,Super,purple
+77,GMC,Giant SUV,white
+88,Daihatsu,Kei,black
+99,BMW,i7,black
+100,Mercedes,x100,silver
+101,Subaru,Outback,green
+102,Hummer,H1,gold
+103,Toyota,Prius,earth green
+104,Ford,Thunderbird,white
+105,BMW,Too Expensive Model,pure gold
