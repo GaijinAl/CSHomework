@@ -9,22 +9,11 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include <algorithm>
 
 using std::string;
 
-
-// DO HIS STUPID IMPLEMENTATION OF ALL IN 1 FILE!!!!
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+// HAVE RIGHT ANSWER NOW JUST POP FROM BACK AND PRINT
 
 int main()
 {
@@ -44,10 +33,10 @@ int main()
 		string line;
 		int inListNum;
 		int carry = 0;
-		int sum;
+		int sum = 0;
 
 		getline(inFile, line);
-		for (char& c : line)
+		for (auto c : line)
 		{
 			//std::string singleNumStr(1, c);
 			//currentNum = std::stoi(singleNumStr);
@@ -57,28 +46,56 @@ int main()
 				list.add_head_1(currentNum);
 			}
 		}
+		list.traverse();
+		std::cout << std::endl << std::endl;
+
 		for (int i = 0; i < 10; i++)
 		{
-			list.add_head_1(0);
+			list.add_tail(0);
 		}
 
-		int count = 1;
+		//int count = 1;
 		Node* currNode;
-		while (getline(inFile, line))
+		while (getline(inFile, line)) // This gives same ans if put getline inside loop
 		{
+//		for (int j = 0; j < 3; j++)
+//			getline(inFile, line);
+			line.erase(std::remove_if(line.begin(), line.end(), isspace), line.end());
 			currNode = list.head;
-			for (char& c: line)
-			{
-				
-				currentNum = c - '0';
+			for (int i = line.size() - 1; i >= 0; i--)
+			{				
+				currentNum = line[i] - '0';
 				if (currentNum >= 0 && currentNum <= 9)
 				{
+					// Currently adding 1's place with left (largest #)
+					//std::cout << "data: " << currNode->data << "cur " << currentNum << "carry " << carry << std::endl; 
 					sum = currNode->data + currentNum + carry;
+					carry = 0;
+					//std::cout << sum << ' ';
 					currNode->data = sum % 10;
 					carry = sum / 10;
 					currNode = currNode->next;
 				}
+//				else
+//				{
+//					currNode->data += carry;
+//				}
+				sum = 0;
 			}
+
+			while (carry != 0)
+			{
+				currNode->data += carry;
+				carry = currNode->data / 10;
+				currNode->data = currNode->data % 10;
+				currNode = currNode->next;
+			}
+
+
+//			std::cout << std::endl << "Result:" ;
+//			list.traverse();
+//			std::cout << std::endl << std::endl;
+			//std::cout << std::endl << std::endl;
 
 			//count++;
 			//std::stringstream lineStream(line);
@@ -87,6 +104,9 @@ int main()
 
 			//currentNum = stoi(line);
 			//std::cout << currentNum << std::endl;
+			//
+			list.traverse();
+			std::cout << std::endl;
 		}
 	}
 	else
