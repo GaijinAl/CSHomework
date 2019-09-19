@@ -133,3 +133,11 @@ void LinkedList::del(dataType num)
 		return;
 	}
 }
+
+// Sets the data of a given node to value
+void LinkedList::search(NodePtr& node, int value)
+{
+	node->data = value;
+
+	return;
+}

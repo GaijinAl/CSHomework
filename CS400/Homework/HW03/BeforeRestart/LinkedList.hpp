@@ -41,6 +41,8 @@ class LinkedList
 		Node* search(dataType num);
 		// Deletes an element and its node from the list
 		void del(dataType num);
+		// Sets data value for a given node
+		void search(NodePtr& node, int value);
 
 		NodePtr head;
 };
