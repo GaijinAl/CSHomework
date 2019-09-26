@@ -33,8 +33,6 @@ class LinkedList
 		void add_head_1(dataType num);
 		// Adds to the head uing a reference to pointer without abstraction of data type
 		void add_head_1_5(dataType num);
-		// Adds to the head using pointer to pointer
-		//void add_head_2(Node** head, dataType num);
 		// Adds to the end of the list
 		void add_tail(dataType num);
 		// Searches for a specific element
@@ -42,7 +40,7 @@ class LinkedList
 		// Deletes an element and its node from the list
 		void del(dataType num);
 		// Sets data value for a given node
-		void search(NodePtr& node, int value);
+		void set(NodePtr& node, int value);
 
 		NodePtr head;
 };

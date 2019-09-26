@@ -5,30 +5,33 @@
  * Description: Header file for LinkedList
  */
 
-#ifndef LINKED_LIST_HPP
-#define LINKED_LIST_HPP
-
+#ifndef DOUBLE_LINKED_LIST_HPP
+#define DOUBLE_LINKED_LIST_HPP
 
 typedef int dataType;
+
 struct Node 
 {
 	dataType data;
 	Node* next;
-	Node() : data(0), next(nullptr) {}
-	Node(dataType value) : data(value), next(nullptr) {}
+	Node* prev;
+	Node() : data(0), next(nullptr), prev(nullptr) {}
+	Node(dataType value) : data(value), next(nullptr), prev(nullptr) {}
 };
 
-class LinkedList
+class DoubleLinkedList
 {
 	public:
 		// For readability of Node*
 		typedef Node* NodePtr;
 
 		// Constructor
-		LinkedList();
+		DoubleLinkedList();
 	
-		// Traverses and prints the lsit
+		// Traverses and prints the list
 		void traverse();
+		// Traverses and prints the list in reverse order
+		void reverseTraverse();
 		// Adds to the head using reference to pointer
 		void add_head_1(dataType num);
 		// Adds to the head uing a reference to pointer without abstraction of data type
@@ -41,8 +44,14 @@ class LinkedList
 		void del(dataType num);
 		// Sets data value for a given node
 		void set(NodePtr& node, int value);
+		// Gets the head's address
+		Node* getHead();
+		// Gets a copy of the tail's address
+		Node* getTail();
 
+	private:
 		NodePtr head;
+		NodePtr tail;
 };
 
 #endif

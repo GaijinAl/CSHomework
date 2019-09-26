@@ -76,6 +76,7 @@ void addEulerFromFile(string file, LinkedList& list)
 			// Make the current the first node
 			currNode = list.head;
 			// Break up the string into individual digits and sum
+			// Going in reverse order
 			for (int i = line.size() - 1; i >= 0; i--)
 			{			
 				// Converts the character into an int	

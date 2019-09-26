@@ -38,14 +38,6 @@ void LinkedList::add_head_1_5(dataType num)
 	head = temp;
 }
 
-//// Adds to the head using pointer to pointer
-//void LinkedList::add_head_2(dataType num)
-//{
-//	Node* temp = new Node(num);
-//	temp->next = *head;
-//	*head = temp;
-//}
-
 // Adds to the end of the list
 void LinkedList::add_tail(dataType num)
 {
@@ -135,7 +127,7 @@ void LinkedList::del(dataType num)
 }
 
 // Sets the data of a given node to value
-void LinkedList::search(NodePtr& node, int value)
+void LinkedList::set(NodePtr& node, int value)
 {
 	node->data = value;
 

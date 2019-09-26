@@ -5,17 +5,18 @@
  * Descrition: Implementation of LinkedList class
  */
 
-#include "LinkedList.hpp"
+#include "DoubleLinkedList.hpp"
 #include <iostream>
 
-LinkedList::LinkedList()
+DoubleLinkedList::DoubleLinkedList()
 {
 	Node* temp = new Node();
 	head = temp;
+	tail = temp;
 }
 
 // Traverses and prints the lsit
-void LinkedList::traverse()
+void DoubleLinkedList::traverse()
 {
 	for (Node* tempPtr = head; tempPtr != nullptr; tempPtr = tempPtr->next)
 	{
@@ -23,23 +24,34 @@ void LinkedList::traverse()
 	}
 }
 
+// Traverses and prints the lsit in reverse
+void DoubleLinkedList::reverseTraverse()
+{
+	for (Node* tempPtr = tail; tempPtr != nullptr; tempPtr = tempPtr->prev)
+	{
+		std::cout << tempPtr->data << ' ';
+	}
+}
+
 // Adds to the head using reference to pointer
-void LinkedList::add_head_1(dataType num)
+void DoubleLinkedList::add_head_1(dataType num)
 {
 	Node* temp = new Node(num);
 	temp->next = head;
+	head->prev = temp;
 	head = temp;
 }
 // Adds to the head uing a reference to pointer without abstraction of data type
-void LinkedList::add_head_1_5(dataType num)
+void DoubleLinkedList::add_head_1_5(dataType num)
 {
 	Node* temp = new Node(num);
 	temp->next = head;
+	head->prev = temp;
 	head = temp;
 }
 
 // Adds to the end of the list
-void LinkedList::add_tail(dataType num)
+void DoubleLinkedList::add_tail(dataType num)
 {
 	if (head == nullptr)
 	{
@@ -47,20 +59,16 @@ void LinkedList::add_tail(dataType num)
 		return;
 	}
 
-	// Now loop until the last node
-	NodePtr curr = head;
-	while (curr->next != nullptr)
-	{
-		curr = curr->next;
-	}
-
+	// Add to the tail
 	Node* temp = new Node(num);
-	curr->next = temp;
-	
+	temp->prev = tail;
+	tail->next = temp;
+	temp = tail;
+		
 	return;
 }
 // Searches for a specific element
-Node* LinkedList::search(dataType num)
+Node* DoubleLinkedList::search(dataType num)
 {
 	NodePtr curr = head;
 
@@ -83,7 +91,7 @@ Node* LinkedList::search(dataType num)
 
 }
 // Deletes an element and its node from the list
-void LinkedList::del(dataType num)
+void DoubleLinkedList::del(dataType num)
 {
 	// Case1: List is empty
 	if (head->next == nullptr)
@@ -127,9 +135,21 @@ void LinkedList::del(dataType num)
 }
 
 // Sets the data of a given node to value
-void LinkedList::set(NodePtr& node, int value)
+void DoubleLinkedList::set(NodePtr& node, int value)
 {
 	node->data = value;
 
 	return;
+}
+
+// Gets a copy of the head's address
+Node* DoubleLinkedList::getHead()
+{
+	return head;
+}
+
+// Gets a copy of the tail's address
+Node* DoubleLinkedList::getTail()
+{
+	return tail;
 }
