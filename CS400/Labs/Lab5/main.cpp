@@ -1,3 +1,6 @@
+// ConsoleApplication2.cpp : This file contains the 'main' function. Program execution begins and ends there.
+//
+
 /*
  * Name: Alexander Van Maren
  * WSUID: J527E389
@@ -22,42 +25,40 @@ using std::stack;
 vector<string> split(const string& str, char delimiter);
 bool isNumber(const string& str);
 
-int main ()
+int main()
 {
 	string input;
 	vector<string> tokens;
 	stack<string> operatorStack;
-//	string result;
+	//	string result;
 
 	cout << "Enter an infix string ('q' to quit): ";
 	getline(std::cin, input);
-	
+
 	while (input != "q")
 	{
-//		cout << "ENTER WHILE" << endl;
+		//		cout << "ENTER WHILE" << endl;
 		tokens = split(input, ' ');
 		for (int i = 0; i < tokens.size(); i++)
 		{
 			cout << tokens[i] << ' ';
 		}
 		cout << endl << endl;
-		
+
 		for (int i = 0; i < tokens.size(); i++)
 		{
 			// If number, print it
-			cout << "NUM";
 			if (isNumber(tokens[i]))
 			{
-				cout << "ENTER NUM";
 				cout << tokens[i] << ' ';
 			}
-			
+
 			// Else, must be an operator
 			else
 			{
 				if (tokens[i] == ")")
 				{
-					while (operatorStack.top() != "(")
+					while (!operatorStack.empty() && operatorStack.top() != "(")
 					{
 						cout << operatorStack.top() << ' ';
 						operatorStack.pop();
@@ -70,26 +71,29 @@ int main ()
 				if (tokens[i] == "+" || tokens[i] == "-")
 				{
 					// Pop all other operators of equal or higher precedence
-					while (operatorStack.top() == "*"
-							|| operatorStack.top() == "/"
-							|| operatorStack.top() == "+"
-							|| operatorStack.top() == "-")
+
+					while (!operatorStack.empty() && (operatorStack.top() == "*"
+						|| operatorStack.top() == "/"
+						|| operatorStack.top() == "+"
+						|| operatorStack.top() == "-"))
 					{
 						cout << operatorStack.top() << ' ';
 						operatorStack.pop();
 					}
+
 					operatorStack.push(tokens[i]);
 				}
 
 				else if (tokens[i] == "*" || tokens[i] == "/")
 				{
 					// Pop all operators of equal precedence
-					while (operatorStack.top() == "*"
-							|| operatorStack.top() == "/")
+					while (!operatorStack.empty() &&
+						(operatorStack.top() == "*" || operatorStack.top() == "/"))
 					{
 						cout << operatorStack.top() << ' ';
 						operatorStack.pop();
 					}
+
 					operatorStack.push(tokens[i]);
 				}
 
@@ -142,6 +146,6 @@ vector<string> split(const string& str, char delimiter)
 bool isNumber(const string& str)
 {
 	return !str.empty()
-		&& std::find_if(str.begin(), str.end(), [](char c) 
-				{ return !std::isdigit(c); }) == str.end();
+		&& std::find_if(str.begin(), str.end(), [](char c)
+	{ return !std::isdigit(c); }) == str.end();
 }
