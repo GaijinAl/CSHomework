@@ -1,0 +1,13 @@
+Notes for the project 
+
+pthread_t threads[2] // The 2 threads type
+int thread_args[2] // will be passed to first, 2nd to second thread
+pthreads_create;
+
+
+End I/O:
+console will wait for input (ex '1')
+when recieve will generate random number to then call either the
+	produce or consumer.
+
+pthread_create() to create processes
