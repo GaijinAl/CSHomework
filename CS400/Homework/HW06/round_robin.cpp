@@ -2,7 +2,7 @@
  * Name: Alexander Van Maren
  * WSUID: J527E389
  * main.cpp
- * Description: 
+ * Description: Uses a queue to queue and simulte the execution of processes by the CPU 
  */
 
 #include <iostream>
@@ -121,7 +121,8 @@ int main()
 			// Check if the process is done
 			if (processQ.front().time_needed < 1)
 			{
-				processQ.front().finished_time = time;
+				// Add 1 since will finish BY the end of this cycle
+				processQ.front().finished_time = time + 1;
 			}
 			
 			// Increase the time
