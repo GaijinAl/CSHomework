@@ -5,7 +5,7 @@
 * main.cpp : Encondes a textfile using Huffman coding
 */
 
-#include "pch.h"
+//#include "pch.h"
 #include <iostream>
 #include <map>
 #include <vector>
@@ -69,6 +69,7 @@ int main()
 		Node* n = new Node(c.second, c.first) ;
 		nodes.push_back(n);
 	}
+	cout << "TOTAL: " << charFrequencies.size() << endl << endl << endl;
 
 	// Sort the vector based on weight
 	std::sort(nodes.begin(), nodes.end(), compareNodes);
@@ -77,12 +78,24 @@ int main()
 
 	string code = "";
 	generateEncoding(nodes[0], encoding, code);
-	
+	// Outputs encoding to a file and copies in reverse for decode
 	for (auto c : encoding)
-	{
+	{		
+		cout << c.first << ":" << c.second << endl;
 		decoding[c.second] = c.first;
 	}
-
+	
+	// Outputs decoding to a file
+	ofstream outFile("huff.sch");
+	if (outFile.is_open())
+	{
+		for (auto c : decoding)
+		{		
+			outFile << c.second << ":" << c.first << endl;
+		}
+	}
+	outFile.close();
+	
 	encodeFile(file, encodedFile, encoding);
 
 	decodeFile(encodedFile, decodedFile, decoding);
