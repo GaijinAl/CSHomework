@@ -1,0 +1,9 @@
+Instructions on how to complie this program:
+
+~~~~~~ If Make is installed:
+1. type make in terminal while in the project directory
+2. type ./test to run the program.
+
+~~~~~~ If Make is NOT installed:
+1. type g++ -Wall -o test -std=c++11 maxima.cpp into terminal
+2. type ./test to run the program
