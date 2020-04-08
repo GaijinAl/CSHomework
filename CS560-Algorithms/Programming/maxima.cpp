@@ -13,7 +13,7 @@
 using namespace std;
 
 const string IN_FILE = "points1";
-const string OUT_FILE = "maxout.out";
+//const string OUT_FILE = "maxout.out";
 
 // Structure for a point read in from file
 struct Point
@@ -32,29 +32,112 @@ Point** readInPoints(ifstream& inFile);
 void printPoints(Point** points);
 void mergeSort(Point** arr, int first, int last);
 void merge(Point** arr, int first, int mid, int last);
+void findMaxima(Point** arr);
+void printMaxima(Point** arr);
+void printPoint(Point* pt);
+void printResults(Point** points);
+void printFinalStats();
 
-int numPoints = 0;
+int numPoints;
+int sortCount[10] = {0};
+int maxNumA; // Number of elements in maxima
+int maxCountA[10] = {0}; // Number of key comparisons in findMaxima
+int pointSetNum = 0;
+
 
 int main()
 {
 	ifstream inFile;
 	inFile.open(IN_FILE);
 
-	Point** points;
-	points = readInPoints(inFile);
+	while (!inFile.eof())
+	{
+		numPoints = 0;
+		maxNumA = 0;
 
-	mergeSort(points, 1, numPoints);
-	cout << "exit sort" << endl;
+		Point **points;
+		points = readInPoints(inFile);
 
-	printPoints(points);
-	cout << "exit print";
+		mergeSort(points, 1, numPoints);
+		findMaxima(points);
+		printResults(points);
 
-	// clear memory
+		// end for
+		pointSetNum++;
+
+		// clear memory
+		delete[] points;
+		points = nullptr;
+	}
 	inFile.close();
-	delete[] points;
-	points = nullptr;
+
+	printFinalStats();
 
 	return 0;
+}
+
+// Prints the final statistics for all of the point sets
+void printFinalStats()
+{
+	cout << "Statistics for the 10 iterations:" << endl << endl
+		<< "Iter SortCt  MaxCtA SortCt+MaxCtA" << endl
+		<< string(50, '-') << endl;
+
+	for (int i = 0; i < 10; i++)
+	{
+		cout << "  " << i << "   " << sortCount[i] << "    " << maxCountA[i] << 
+		string(7, ' ') << (sortCount[i] + maxCountA[i]) << endl;
+	}
+}
+
+// Prints the results for a point set
+void printResults(Point** points)
+{
+	cout << "Output for the " << pointSetNum << "-th Set of Points" << endl
+		<< string(33, '=') << endl << endl
+		<< "Input Size = " << numPoints << endl
+		<< "sortCount = " << sortCount[pointSetNum] << endl
+		<< "maxCountA = " << maxCountA[pointSetNum] << endl
+		<< "maxNumA = " << maxNumA << endl << endl
+		<< "Maxima(S): (where: x, y)" << endl
+		<< string(27, '-') << endl;
+	
+	printMaxima(points);
+
+	cout << endl << string(41, '=') << endl << endl;
+}
+
+// Finds all the maxima in a list of Ponits, sorted in descending order based on x-value
+void findMaxima(Point** arr)
+{
+	// Add point with largest x value as maxima
+	float currentMaxY = arr[numPoints]->y;
+	arr[numPoints]->maximal = true;
+	maxNumA++;
+
+	for (int i = numPoints - 1; i > 0; i--)
+	{
+		if (arr[i]->y > currentMaxY)
+		{
+			currentMaxY = arr[i]->y;
+			arr[i]->maximal = true;
+			maxNumA++;
+		}
+		maxCountA[pointSetNum]++;
+	}
+}
+
+// Prints out the maxima in the Point list
+void printMaxima(Point** arr)
+{
+	for (int i = 1; i < (numPoints + 1); i++)
+	{
+		if (arr[i]->maximal)
+		{
+			cout << arr[i]->where << ":  (" << arr[i]->x << ", " 
+				<< arr[i]->y << ')' << endl;
+		}
+	}
 }
 
 // Performs merge sort on the points array
@@ -69,6 +152,7 @@ void mergeSort(Point** arr, int first, int last)
 	}
 }
 
+// Merge helper function of mergeSort function
 void merge(Point** arr, int first, int mid, int last)
 {
 	int leftSize = mid - first + 1;
@@ -106,6 +190,7 @@ void merge(Point** arr, int first, int mid, int last)
 			j++;
 		}
 		k++;
+		sortCount[pointSetNum]++;
 	}
 	while (i < leftSize)
 	{
@@ -127,13 +212,9 @@ void merge(Point** arr, int first, int mid, int last)
 // Outputs an array of Point pointers
 Point** readInPoints(ifstream& inFile)
 {
-
-
 	// Used to construct Point structs
 	string inX;
 	string inY;
-	bool inMax;
-	int inWhere;
 
 	string count;
 
@@ -142,7 +223,6 @@ Point** readInPoints(ifstream& inFile)
 	{
 		getline(inFile, count); // get count of points
 		numPoints = stoi(count);
-		cout << "numPoints " << numPoints << endl;
 	}
 
 	Point** points;
@@ -153,12 +233,6 @@ Point** readInPoints(ifstream& inFile)
 	{
 		char delimeter = ' ';
 		string line;
-
-		// getline(inFile, line);
-		// //Separate x _ _ _ y
-		// inX = line.substr(0, line.find(delimeter));
-		// inY = line.substr(line.find(delimeter));
-		// points[2] = new Point(stof(inX), stof(inY), false, 2);
 
 		// Read in number of points told to read (1000)
 		for (int i = 1; i < (numPoints + 1); i++)
@@ -171,26 +245,29 @@ Point** readInPoints(ifstream& inFile)
 		}
 	}
 
-
-	//points[1] = new Point(0,1,true,4);
-	//points[1] = new Point(0,2,true,4);
-	//points[2] = new Point(0,3,true,4);
-
 	return points;
 }
 
-
+// Prints a list of points
 void printPoints(Point** points)
 {
+	cout << "x\t\ty\t\tmaximal\t\twhere" << endl;
 	for (int i = 1; i < (numPoints + 1); i++)
 	{
-		if (points[i] != nullptr)
-		{
-			cout << points[i]->x << ' ' << points[i]->y << endl;
-		}
-		else
-		{
-			cout << "NULL ";
-		}
+		printPoint(points[i]);
+	}
+}
+
+// Prints a single point
+void printPoint(Point* pt)
+{
+	if (pt != nullptr)
+	{
+		cout << pt->x << '\t' << pt->y << '\t'
+			 << pt->maximal << '\t' << pt->where << endl;
+	}
+	else
+	{
+		cout << "NULL ";
 	}
 }
